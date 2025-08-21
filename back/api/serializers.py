@@ -3,6 +3,9 @@ from .models import Autor
 from .models import Editora
 from .models import Livro
 
+   
+
+
 class AutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Autor
@@ -16,6 +19,8 @@ class EditoraSerializer(serializers.ModelSerializer):
 
 
 class LivroSerializer(serializers.ModelSerializer):
+
+
     class Meta:
         model = Livro
         fields = '__all__'
