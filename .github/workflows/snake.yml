@@ -1,0 +1,25 @@
+name: Snake animation
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install py-github-snake
+
+    - name: Run Snake animation
+      run: github-snake --username Gabriel-sillva --color "red,black" --output github-snake-red-black.svg

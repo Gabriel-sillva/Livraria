@@ -1,20 +1,18 @@
 from django.db import models
 
 class Autor(models.Model):
-    def __str__(self):
-        return self.nome
     nome = models.CharField(max_length=100)
     s_nome = models.CharField(max_length=100)
     nasc = models.DateField(null=True,blank=True)
     nacio = models.CharField(max_length=50, null=True, blank=True)
     biogr = models.TextField()
 
+    def __str__(self):
+        return self.nome
 
 
 
 class Editora(models.Model):
-    def __str__(self):
-        return self.nome
     nome = models.CharField(max_length=100)
     cnpj = models.CharField(max_length=18, unique=True, null=True, blank=True)
     endereco = models.CharField(max_length=200, null=True, blank=True)
@@ -22,6 +20,8 @@ class Editora(models.Model):
     email = models.EmailField(null=True, blank=True)
     site = models.URLField(null=True, blank=True)
 
+    def __str__(self):
+        return self.nome
 
 
 
