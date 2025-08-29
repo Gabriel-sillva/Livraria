@@ -6,10 +6,9 @@ from .models import Livro
 from .serializers import AutorSerializer
 from .serializers import EditoraSerializer
 from .serializers import LivroSerializer
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 
 
 # Autores
@@ -18,7 +17,6 @@ class AutoresView(ListCreateAPIView):
     serializer_class = AutorSerializer
 
 @api_view(['GET', 'POST'])
-@permission_classes ([IsAuthenticated])
 def listar_autores(request):
     if request.method  == 'GET':
         queryset = Autor.objects.all()
@@ -79,33 +77,27 @@ def listar_livros(Request):
 class AutoresView(ListCreateAPIView):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
-    permission_classes = [IsAuthenticated]
 
 class AutoresDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
-    permission_classes = [IsAuthenticated]
 
 # %%%%%%%%%%%%%%%%%%%% Editores %%%%%%%%%%%%%%%%%%%%
 
 class EditoraView(ListCreateAPIView):
     queryset = Editora.objects.all()
     serializer_class = EditoraSerializer
-    permission_classes = [IsAuthenticated]
 
 class EditoraDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Editora.objects.all()
     serializer_class = EditoraSerializer
-    permission_classes = [IsAuthenticated]
 
 # %%%%%%%%%%%%%%%%%%%% Livros %%%%%%%%%%%%%%%%%%%%
 
 class LivroDetaiVieW(RetrieveUpdateDestroyAPIView):
     queryset = Livro.objects.all()
     serializer_class = LivroSerializer
-    permission_classes = [IsAuthenticated]
 
 class LivroVieW(ListCreateAPIView):
     queryset = Livro.objects.all()
     serializer_class = LivroSerializer
-    permission_classes = [IsAuthenticated]
