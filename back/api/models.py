@@ -1,20 +1,20 @@
-
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
 
 class Autor(models.Model):
-    nome = models.CharField(max_length=100)
-    s_nome = models.CharField(max_length=100)
-    nasc = models.DateField(null=True,blank=True)
+    autor = models.CharField(max_length=100)
+    s_autor = models.CharField(max_length=100)
+    nasc = models.DateField(null=True, blank=True)
     nacio = models.CharField(max_length=50, null=True, blank=True)
-    biogr = models.TextField()
+    biogr = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.nome
-
+        return f"{self.autor} {self.s_autor}"
 
 
 class Editora(models.Model):
-    nome = models.CharField(max_length=100)
+    editora = models.CharField(max_length=100)
     cnpj = models.CharField(max_length=18, unique=True, null=True, blank=True)
     endereco = models.CharField(max_length=200, null=True, blank=True)
     telefone = models.CharField(max_length=20, null=True, blank=True)
@@ -24,21 +24,24 @@ class Editora(models.Model):
     def __str__(self):
         return self.nome
 
-
-
+    
 class Livro(models.Model):
     titulo = models.CharField(max_length=50)
-    subtitulo = models.CharField(max_length=255)
+    subtitulo = models.CharField(max_length=255)    
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
-    editora = models.ForeignKey(Editora, on_delete=models.CASCADE)
-    isbn = models.CharField(max_length=255)
-    descricacao = models.TextField()
-    idioma = models.CharField(max_length=255, default="Português")
-    ano_publicacao = models.IntegerField()
-    paginas = models.IntegerField()
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
-    estoque = models.IntegerField()
-    desconto = models.DecimalField(max_digits=10, decimal_places=2)
-    disponivel = models.BooleanField(default=True)
-    dimensoes = models.CharField(max_length=255)
-    peso = models.DecimalField(max_digits=10, decimal_places=2)
+    editora = models.ForeignKey(Editora, on_delete=models.CASCADE)      #Ligado à tabela de editoras
+    isbn = models.CharField(max_length=255)	                            #Código ISBN (único por edição)
+    descricao = models.TextField()	                                    #Resumo ou sinopse do livro
+    idioma = models.CharField(max_length=255, default="Português")	    #Ex: Português, Inglês
+    ano = models.IntegerField()	                                        #IntegerField	Ano de publicação
+    paginas = models.IntegerField()         	                        #IntegerField	Número de páginas
+    preco = models.DecimalField(max_digits=10, decimal_places=2) 	    #DecimalField	Preço de venda
+    estoque = models.IntegerField()	                                    #IntegerField	Quantidade disponível
+    desconto = models.DecimalField(max_digits=10, decimal_places=2)	    #DecimalField (opcional)	Valor percentual de desconto
+    disponivel = models.BooleanField(default=True)	                    #BooleanField	Se está ativo no catálogo
+    dimensoes =	models.CharField(max_length=255)                        #CharField	Tamanho físico do livro
+    peso =	models.DecimalField(max_digits=10, decimal_places=2)        #DecimalField	Peso em gramas, se for físico
+    
+    def __str__(self):
+        return self.titulo
+    

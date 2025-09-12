@@ -25,4 +25,9 @@ urlpatterns = [
     path('autor/<int:pk>',AutoresDetailView.as_view()),
     path('editora/<int:pk>', EditoraDetailView.as_view()),
     path('livro/<int:pk>', LivroDetaiVieW.as_view()),
+
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    path('register/', RegisterView.as_view(), name='register'),
 ]

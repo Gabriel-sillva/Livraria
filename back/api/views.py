@@ -1,16 +1,18 @@
 from django.shortcuts import render
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Autor
-from .models import Editora
-from .models import Livro
-from .serializers import AutorSerializer
-from .serializers import EditoraSerializer
-from .serializers import LivroSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
+from .models import Autor, Editora, Livro
+from .serializers import AutorSerializer, EditoraSerializer, LivroSerializer, RegisterSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Filters
+from .filters import AutorFilter 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 
 
 
@@ -80,27 +82,64 @@ def listar_livros(Request):
 class AutoresView(ListCreateAPIView):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
+    # permission_classses =[IsAuthenticated]
+
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['id', 'autor', 's_autor']      # Permite o filtro exato
+    search_fields = ['autor', 's_autor']               # busca parcial: ?search=Jorge
+    filterset_class = AutorFilter                     
 
 class AutoresDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
+    permission_classes =[IsAuthenticated]
+
 
 # %%%%%%%%%%%%%%%%%%%% Editores %%%%%%%%%%%%%%%%%%%%
 
 class EditoraView(ListCreateAPIView):
     queryset = Editora.objects.all()
     serializer_class = EditoraSerializer
+    #permission_classes =[IsAuthenticated]
+
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['id', 'nome']
+    search_fields = ['nome']  
+
 
 class EditoraDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Editora.objects.all()
     serializer_class = EditoraSerializer
+    permission_classes =[IsAuthenticated]
 
 # %%%%%%%%%%%%%%%%%%%% Livros %%%%%%%%%%%%%%%%%%%%
-
-class LivroDetaiVieW(RetrieveUpdateDestroyAPIView):
-    queryset = Livro.objects.all()
-    serializer_class = LivroSerializer
 
 class LivroVieW(ListCreateAPIView):
     queryset = Livro.objects.all()
     serializer_class = LivroSerializer
+    permission_classes =[IsAuthenticated]
+    
+
+class LivroDetaiVieW(RetrieveUpdateDestroyAPIView):
+    queryset = Livro.objects.all()
+    serializer_class = LivroSerializer
+    permission_classes =[IsAuthenticated]
+
+
+class RegisterView(CreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        ser = self.get_serializer(data=request.data)
+        ser.is_valid(raise_exception=True)
+        user = ser.save()
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'user': {'id': user.id, 'username': user.username},
+            'tokens': {'refresh': str(refresh), 'access': str(refresh.access_token)}
+        }, status=status.HTTP_201_CREATED)
+        
+    
+
+    
