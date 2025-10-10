@@ -1,5 +1,3 @@
-import os
-from django.conf import settings
 import pandas as pd
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -7,21 +5,9 @@ from api.models import Editora, Autor, Livro
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument(
-            "--arquivo_editoras",
-            default=os.path.join(settings.BASE_DIR, "api", "population", "editoras.csv")
-        )
-
-        parser.add_argument(
-            "--arquivo_autores",
-            default=os.path.join(settings.BASE_DIR, "api", "population", "autores.csv")
-        )
-
-        parser.add_argument(
-            "--arquivo_livros",
-            default=os.path.join(settings.BASE_DIR, "api", "population", "livros.csv")
-        )
-
+        parser.add_argument("--arquivo_editoras", default="population/editoras.csv")
+        parser.add_argument("--arquivo_autores", default="population/autores.csv")
+        parser.add_argument("--arquivo_livros", default="population/livros.csv")
         parser.add_argument("--truncate", action="store_true")
         parser.add_argument("--update", action="store_true")
         

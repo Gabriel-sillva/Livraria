@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from rest_framework.routers import DefaultRouter
 
+
 urlpatterns = [
     path('autores/', AutoresView.as_view(), name='autores-list'), 
     path('autor/<int:pk>', AutoresDetailView.as_view(), name='autores-detail'),

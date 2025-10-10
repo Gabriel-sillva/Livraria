@@ -42,7 +42,7 @@ class AutoresView(ListCreateAPIView):
 class AutoresDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
-    # permission_classes =[IsAuthenticated]
+    permission_classes =[IsAuthenticated]
 
 class EditorasView(ListCreateAPIView):
     queryset = Editora.objects.all()
@@ -50,9 +50,8 @@ class EditorasView(ListCreateAPIView):
     # permission_classes =[IsAuthenticated]
     
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['id'] #exato
-    search_fields = ['autor', 's_autor'] #não extato  
-
+    filterset_fields = ['id']
+    search_fields = ['autor', 's_autor']  
 
 class EditorasDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Editora.objects.all()
@@ -67,7 +66,7 @@ class LivrosView(ListCreateAPIView):
 class LivrosDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Livro.objects.all()
     serializer_class = LivroSerializer
-    # permission_classes =[IsAuthenticated]
+    permission_classes =[IsAuthenticated]
 
 
 

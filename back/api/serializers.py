@@ -1,31 +1,32 @@
 from rest_framework import serializers
 from .models import Autor, Editora, Livro
 
+# === ADICIONE: imports para o cadastro ===
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
-
-
 
 class AutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Autor
         fields = '__all__'
 
-
 class EditoraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Editora
-        fields='__all__'
+        fields = '__all__'
+
 
 class LivroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Livro
         fields = '__all__'
+        
+        
+        
 
-
+# === ADICIONE: serializer de registro de usuário ===
 User = get_user_model()
-
 
 class RegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
