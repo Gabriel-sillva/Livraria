@@ -47,3 +47,10 @@ class Livro(models.Model):
     
 
 
+class Imagem(models.Model):
+    iamgem = models.ImageField(upload_to="upload/%y%m%d/")
+    criado_em = models.DateTimeField(auto_now_add=False)
+
+    def __str__(self):
+        return f"imagem #{self.pk}"
+    
