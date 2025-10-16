@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import os, uuid
+
+def path_capa(_, filename):
+    ext = os.path.splitext(filename)
+    return f"capas/{uuid.uuid4().hex}{ext.lower()}"
 
 
 class Autor(models.Model):
@@ -41,6 +46,7 @@ class Livro(models.Model):
     disponivel = models.BooleanField(default=True)	                    #BooleanField	Se está ativo no catálogo
     dimensoes =	models.CharField(max_length=255)                        #CharField	Tamanho físico do livro
     peso =	models.DecimalField(max_digits=10, decimal_places=2)        #DecimalField	Peso em gramas, se for físico
+    capa = models.ImageField(upload_to=path_capa, blank=True, null=True)
     
     def __str__(self):
         return self.titulo
@@ -48,7 +54,7 @@ class Livro(models.Model):
 
 
 class Imagem(models.Model):
-    iamgem = models.ImageField(upload_to="upload/%y%m%d/")
+    iamgem = models.ImageField(upload_to="capas")
     criado_em = models.DateTimeField(auto_now_add=False)
 
     def __str__(self):

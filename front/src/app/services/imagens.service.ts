@@ -23,10 +23,12 @@ export class ImagemService{
         return this.http.get<Imagem[]>(this.base, {headers: this.headers()})
     }
 
-    enviar(file): Observable<Imagem>{
+    enviar(file: File): Observable<Imagem> {
         const from = new FormData()
-        form.append('iamgem', file)
-        return this.http.post<Imagem>(this.base, form, {headers: this.headers()})
+        from.append('iamgem',file)
+        return this.http.post<Imagem>(this.base, from, {headers: this.headers()})
+
+
     }
 
     deletar(id: number){

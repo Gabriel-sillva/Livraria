@@ -1,0 +1,5 @@
+enviar(file): Observable<Imagem>{
+        const from = new FormData()
+        from.append('iamgem', file)
+        return this.http.post<Imagem>(this.base, from, {headers: this.headers()})
+    }
