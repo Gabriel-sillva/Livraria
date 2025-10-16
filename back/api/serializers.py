@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from .models import Autor, Editora, Livro, Imagem
-
 # === ADICIONE: imports para o cadastro ===
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
+
 
 class AutorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,9 +18,38 @@ class EditoraSerializer(serializers.ModelSerializer):
 
 
 class LivroSerializer(serializers.ModelSerializer):
+    capa_url = serializers.SerializerMethodField()
+    
     class Meta:
         model = Livro
-        fields = '__all__'
+        fields = [
+            "id",
+            "titulo", 
+            "subtitulo", 
+            "autor", 
+            "editora", 
+            "isbn", 
+            "descricao", 
+            "idioma", 
+            "ano_publicacao", 
+            "paginas", 
+            "preco", 
+            "estoque", 
+            "desconto", 
+            "disponivel", 
+            "dimensoes", 
+            "peso", 
+            "capa",
+            "capa_url" 
+        ]
+    
+    def get_capa_url(self, obj):
+        request = self.context.get("request")
+        if obj.capa and request:
+            return request.build_absolute_uri(obj.capa.url)  
+        return None
+
+    
         
         
         
