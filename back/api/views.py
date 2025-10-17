@@ -65,6 +65,7 @@ class LivrosView(ModelViewSet):
     queryset = Livro.objects.all().order_by("-id")
     serializer_class = LivroSerializer
     parser_classes = [MultiPartParser, FormParser]  # aceita multipart
+    ordering = []
 
     @action(detail=True, methods=["post"], parser_classes=[MultiPartParser, FormParser])
     def capa(self, request, pk=None):
